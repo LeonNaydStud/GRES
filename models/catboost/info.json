@@ -1,0 +1,46 @@
+{
+    "type": "catboost",
+    "features": [
+        "StationTempOutdoorAir",
+        "TurbineTempFeedWaterQ2",
+        "StationCoalHumidity",
+        "StationCoalAsh",
+        "StationConsumpNaturalFuel",
+        "Year",
+        "Season",
+        "Month",
+        "DayOfYear",
+        "Day",
+        "DayOfWeek"
+    ],
+    "target": [
+        "TurbinePowerSum"
+    ],
+    "R2": 0.9040802216230798,
+    "MAE": 16.720156208536107,
+    "MSE": 465.499402295936,
+    "RMSE": 21.575435158900873,
+    "MAPE": 0.06475132667508465,
+    "params": {
+        "iterations": 1000,
+        "learning_rate": 0.1,
+        "depth": 6,
+        "loss_function": "RMSE",
+        "random_seed": 42,
+        "task_type": "CPU",
+        "early_stopping_rounds": 50
+    },
+    "feature_importance": {
+        "StationTempOutdoorAir": 2.7014833548018844,
+        "TurbineTempFeedWaterQ2": 10.05603453464701,
+        "StationCoalHumidity": 1.304249620984397,
+        "StationCoalAsh": 2.8106415710280785,
+        "StationConsumpNaturalFuel": 68.81214100916912,
+        "Year": 6.009516289288678,
+        "Season": 2.9023533663019836,
+        "Month": 4.3959648944465,
+        "DayOfYear": 0.09275188191679436,
+        "Day": 0.6534814966763915,
+        "DayOfWeek": 0.2613819807389541
+    }
+}
