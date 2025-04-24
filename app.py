@@ -13,19 +13,42 @@ except FileNotFoundError:
     st.set_page_config(page_title="Выходная мощность ГРЭС", layout="wide")
 
 with st.sidebar:
-    st.header("Параметры станции:")
-    model_type = st.radio("Модель:", ("CatBoost", "SARIMAX", "Обе модели"), horizontal=True)
-    Date = st.date_input('Дата', format="YYYY-MM-DD")
+    model_type = st.radio("**Тип модели:**" ,("CatBoost", "SARIMAX", "Обе модели"), horizontal=True)
+    Date = st.date_input("**Дата**")
+    st.header("Температурные параметры:")
     StationTempOutdoorAir = st.number_input('Температура вне станции (°C)',
                                           min_value=-50.0, max_value=50.0, value=-7.95)
-    TurbineTempFeedWaterQ2 = st.number_input('Температура пара в турбинах (°C)',
+    st.write("Температура пара в турбинах (°C):")
+    c1, c2 = st.columns(2)
+    with c1:
+        TurbineTemp1 = st.number_input('Турбина 1',
                                            min_value=0.0, max_value=500.0, value=207.65)
-    StationCoalHumidity = st.number_input('Влажность угля (%)',
-                                        min_value=0.0, max_value=100.0, value=9.51)
-    StationCoalAsh = st.number_input('Зольность угля (%)',
-                                   min_value=0.0, max_value=100.0, value=23.36)
-    StationConsumpNaturalFuel = st.number_input('Расход натурального топлива (т)',
-                                             min_value=0.0, max_value=6000.0, value=4097.91)
+        TurbineTemp2 = st.number_input('Турбина 2',
+                                                 min_value=0.0, max_value=500.0, value=207.65)
+        TurbineTemp3 = st.number_input('Турбина 3',
+                                       min_value=0.0, max_value=500.0, value=207.65)
+        TurbineTemp4 = st.number_input('Турбина 4',
+                                       min_value=0.0, max_value=500.0, value=207.65)
+    with c2:
+        TurbineTemp5 = st.number_input('Турбина 5',
+                                           min_value=0.0, max_value=500.0, value=207.65)
+        TurbineTemp6 = st.number_input('Турбина 6',
+                                                 min_value=0.0, max_value=500.0, value=207.65)
+        TurbineTemp7 = st.number_input('Турбина 7',
+                                       min_value=0.0, max_value=500.0, value=207.65)
+        TurbineTemp8 = st.number_input('Турбина 8',
+                                       min_value=0.0, max_value=500.0, value=207.65)
+    st.header("Расход:")
+    StationConsumpNaturalFuel = st.number_input('Расход натурального топлива за прошлый день (т)',
+                                                min_value=0.0, max_value=6000.0, value=4097.91)
+    st.header("Параметры качества угля:")
+    c3, c4 = st.columns(2)
+    with c3:
+        StationCoalHumidity = st.number_input('Влажность (%)',
+                                              min_value=0.0, max_value=100.0, value=9.51)
+    with c4:
+        StationCoalAsh = st.number_input('Зольность (%)',
+                                         min_value=0.0, max_value=100.0, value=23.36)
     button = st.button("Предсказать выходную мощность")
 
 def month_to_season(month):
@@ -61,10 +84,14 @@ if "button_pressed" not in st.session_state:
 
 if button:
     try:
+        turb = np.array([TurbineTemp1, TurbineTemp2, TurbineTemp3, TurbineTemp4,
+                         TurbineTemp5, TurbineTemp6, TurbineTemp7, TurbineTemp8])
+        turb = np.quantile(turb, q=0.5)
+
         df = pd.DataFrame({
             'Date': pd.to_datetime([Date]),
             'StationTempOutdoorAir': [float(StationTempOutdoorAir)],
-            'TurbineTempFeedWaterQ2': [float(TurbineTempFeedWaterQ2)],
+            'TurbineTempFeedWaterQ2': [float(turb)],
             'StationCoalHumidity': [float(StationCoalHumidity)],
             'StationCoalAsh': [float(StationCoalAsh)],
             'StationConsumpNaturalFuel': [float(StationConsumpNaturalFuel)]
@@ -107,14 +134,15 @@ if button:
             df_processed = prepare_input_data(df.copy())
             power_cat = np.round(cb.calculate(df_processed), 2)
             power_sm = np.round(sm.calculate(df_processed), 2)
+            st.header("Результаты моделей")
             col1, col2 = st.columns(2)
             with col1:
-                st.header("Результат модели CatBoost")
+                st.write("<h4>CatBoost</h4>", unsafe_allow_html=True)
                 st.metric(label="Выходная мощность", value=f"{power_cat} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
 
             with col2:
-                st.header("Результат модели SARIMAX")
+                st.write("<h4>SARIMAX</h4>", unsafe_allow_html=True)
                 st.metric(label="Выходная мощность", value=f"{power_sm} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
             st.header("Метрики оценки модели")
