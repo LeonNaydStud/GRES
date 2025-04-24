@@ -117,7 +117,9 @@ if button:
                 metric_model(cb)
             with col2:
                 st.header(f"Результат модели {model_type}")
-                st.metric(label="Выходная мощность", value=f"{power} МВт",
+                st.metric(label="Выходная мощность в час", value=f"{power:.2f} МВт",
+                          help="Прогнозируемая выходная мощность на основе входных параметров")
+                st.metric(label="Выходная мощность в сутки", value=f"{24 * power:.2f} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
         elif model_type == "SARIMAX":
             df_processed = prepare_input_data(df.copy())
@@ -128,7 +130,9 @@ if button:
                 metric_model(sm)
             with col2:
                 st.header(f"Результат модели {model_type}")
-                st.metric(label="Выходная мощность", value=f"{power} МВт",
+                st.metric(label="Выходная мощность в час", value=f"{power:.2f} МВт",
+                          help="Прогнозируемая выходная мощность на основе входных параметров")
+                st.metric(label="Выходная мощность в сутки", value=f"{24 * power:.2f} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
         else:
             df_processed = prepare_input_data(df.copy())
@@ -138,12 +142,15 @@ if button:
             col1, col2 = st.columns(2)
             with col1:
                 st.write("<h4>CatBoost</h4>", unsafe_allow_html=True)
-                st.metric(label="Выходная мощность", value=f"{power_cat} МВт",
+                st.metric(label="Выходная мощность в час", value=f"{power_cat:.2f} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
-
+                st.metric(label="Выходная мощность в сутки", value=f"{24 * power_cat:.2f} МВт",
+                          help="Прогнозируемая выходная мощность на основе входных параметров")
             with col2:
                 st.write("<h4>SARIMAX</h4>", unsafe_allow_html=True)
-                st.metric(label="Выходная мощность", value=f"{power_sm} МВт",
+                st.metric(label="Выходная мощность в час", value=f"{power_sm:.2f} МВт",
+                          help="Прогнозируемая выходная мощность на основе входных параметров")
+                st.metric(label="Выходная мощность в сутки", value=f"{24 * power_sm:.2f} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
             st.header("Метрики оценки модели")
             col3, col4 = st.columns(2)
