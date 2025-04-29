@@ -3,11 +3,11 @@ from PIL import Image
 import pandas as pd
 import numpy as np
 from pathlib import Path
-import server.catboost_model as cb
-import server.sarimax_model as sm
+import models.catboost_model as cb
+import models.sarimax_model as sm
 
 try:
-    icon = Image.open(Path(__file__).parent / "server" / "icon.png")
+    icon = Image.open(Path(__file__).parent / "icon.png")
     st.set_page_config(page_icon=icon, page_title="Выходная мощность ГРЭС", layout="wide")
 except FileNotFoundError:
     st.set_page_config(page_title="Выходная мощность ГРЭС", layout="wide")

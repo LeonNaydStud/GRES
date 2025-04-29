@@ -1,13 +1,21 @@
 import json
 from catboost import CatBoostRegressor
 import pandas as pd
+from pathlib import Path
+
+# Определяем базовый путь к проекту
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# Пути к файлам модели SARIMAX
+MODEL_PATH = BASE_DIR / 'models' / 'catboost' / 'model.cbm'
+INFO_PATH = BASE_DIR / 'models' / 'catboost' / 'info.json'
 
 # Загрузка CatBoost модели
 model = CatBoostRegressor()
-model.load_model('D:/PyCharmProjects/GRES/models/catboost/model.cbm')
+model.load_model(MODEL_PATH)
 
 # Загрузка метаданных
-with open('D:/PyCharmProjects/GRES/models/catboost/info.json', 'r', encoding='utf-8') as filestream:
+with open(INFO_PATH, 'r', encoding='utf-8') as filestream:
     info = json.load(filestream)
 
 def calculate(data: pd.DataFrame) -> float:

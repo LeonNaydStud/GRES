@@ -2,7 +2,7 @@
     "type": "catboost",
     "features": [
         "StationTempOutdoorAir",
-        "TurbineTempFeedWaterQ2",
+        "TurbineTempFeedSteamQ2",
         "StationCoalHumidity",
         "StationCoalAsh",
         "StationConsumpNaturalFuel",
@@ -20,7 +20,7 @@
     "MAE": 16.720156208536107,
     "MSE": 465.499402295936,
     "RMSE": 21.575435158900873,
-    "MAPE": 0.06475132667508465,
+    "MAPE": 0.06475132667508464,
     "params": {
         "iterations": 1000,
         "learning_rate": 0.1,
@@ -32,7 +32,7 @@
     },
     "feature_importance": {
         "StationTempOutdoorAir": 2.7014833548018844,
-        "TurbineTempFeedWaterQ2": 10.05603453464701,
+        "TurbineTempFeedSteamQ2": 10.05603453464701,
         "StationCoalHumidity": 1.304249620984397,
         "StationCoalAsh": 2.8106415710280785,
         "StationConsumpNaturalFuel": 68.81214100916912,

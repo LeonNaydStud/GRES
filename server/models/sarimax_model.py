@@ -1,11 +1,19 @@
 import json
 import pickle
 import pandas as pd
+from pathlib import Path
 
-with open('D:/PyCharmProjects/GRES/models/sarimax/model.pickle', mode='rb') as filestream:
+# Определяем базовый путь к проекту
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# Пути к файлам модели SARIMAX
+MODEL_PATH = BASE_DIR / 'models' / 'sarimax' / 'model.pickle'
+INFO_PATH = BASE_DIR / 'models' / 'sarimax' / 'info.json'
+
+with open(MODEL_PATH, mode='rb') as filestream:
     model = pickle.load(filestream)
 
-with open('D:/PyCharmProjects/GRES/models/sarimax/info.json', 'r', encoding='utf-8') as f:
+with open(INFO_PATH, 'r', encoding='utf-8') as f:
     info = json.load(f)
 
 
@@ -13,7 +21,7 @@ def calculate(data: pd.DataFrame) -> float:
     data = data[['StationTempOutdoorAir', 'TurbineTempFeedWaterQ2',
              'StationCoalHumidity', 'StationCoalAsh',
              'StationConsumpNaturalFuel', 'Year', 'Season', 'DayOfWeek']]
-    pred = model.forecast(data.shape[0], exog = data)
+    pred = model.forecast(data.shape[0], exog=data)
     return float(pred)
 
 def get_r2() -> float:

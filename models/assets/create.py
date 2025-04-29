@@ -7,15 +7,27 @@ from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, m
 from catboost import CatBoostRegressor
 import statsmodels.api as sm
 import logging
+from pathlib import Path
+
+# Определяем базовый путь к проекту
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Настройка логгирования
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-df = pd.read_csv('D:/PyCharmProjects/GRES/data.csv')
+df = pd.read_csv(BASE_DIR / 'data.csv')
 df['Date'] = pd.to_datetime(df['Date'])
 df.set_index('Date', inplace=True)
 df = df.resample('D').mean()
+
+def add_time_features(data):
+    data = data.copy()
+    data['Month'] = data.index.month
+    data['Day'] = data.index.day
+    data['DayOfYear'] = data.index.dayofyear
+    return data
+df = add_time_features(df)
 
 def calculate_metrics(y_true, y_pred):
     metrics = {
@@ -51,7 +63,7 @@ def save_model_info(base_path, info, model, model_type):
 def create_catboost(train_date='2015-01-01', r2_threshold=0.85):
     try:
         target = ['TurbinePowerSum']
-        features = ['StationTempOutdoorAir', 'TurbineTempFeedWaterQ2', 'StationCoalHumidity',
+        features = ['StationTempOutdoorAir', 'TurbineTempFeedSteamQ2', 'StationCoalHumidity',
                     'StationCoalAsh', 'StationConsumpNaturalFuel', 'Year',
                     'Season', 'Month', 'DayOfYear', 'Day', 'DayOfWeek']
         col_cat = ['Year', 'Season', 'Month', 'DayOfYear', 'Day', 'DayOfWeek']
@@ -102,8 +114,8 @@ def create_catboost(train_date='2015-01-01', r2_threshold=0.85):
                 'feature_importance': feature_importance_dict
             }
 
-            base_path = r'D:\PyCharmProjects\GRES\models\catboost\\'
-            save_model_info(base_path, info, model, 'catboost')
+            model_path = BASE_DIR / 'models' / 'catboost'
+            save_model_info(model_path, info, model, 'catboost')
         else:
             logger.info(f"R2 <= {r2_threshold} — модель не сохранена.")
 
@@ -114,7 +126,7 @@ def create_catboost(train_date='2015-01-01', r2_threshold=0.85):
 def create_sarimax(train_date='2015-01-01', r2_threshold=0.85, order=(0, 0, 0)):
     try:
         target = ['TurbinePowerSum']
-        features = ['StationTempOutdoorAir', 'TurbineTempFeedWaterQ2', 'StationCoalHumidity',
+        features = ['StationTempOutdoorAir', 'TurbineTempFeedSteamQ2', 'StationCoalHumidity',
                     'StationCoalAsh', 'StationConsumpNaturalFuel', 'Year',
                     'Season', 'DayOfWeek']
 
@@ -143,8 +155,8 @@ def create_sarimax(train_date='2015-01-01', r2_threshold=0.85, order=(0, 0, 0)):
                 'summary': str(res.summary())
             }
 
-            base_path = r'D:\PyCharmProjects\GRES\models\sarimax\\'
-            save_model_info(base_path, info, res, 'sarimax')
+            model_path = BASE_DIR / 'models' / 'sarimax'
+            save_model_info(model_path, info, res, 'sarimax')
         else:
             logger.info(f"R2 <= {r2_threshold} — модель не сохранена.")
 

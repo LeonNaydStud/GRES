@@ -2,7 +2,7 @@
     "type": "sarimax",
     "features": [
         "StationTempOutdoorAir",
-        "TurbineTempFeedWaterQ2",
+        "TurbineTempFeedSteamQ2",
         "StationCoalHumidity",
         "StationCoalAsh",
         "StationConsumpNaturalFuel",
@@ -13,22 +13,22 @@
     "target": [
         "TurbinePowerSum"
     ],
-    "R2": 0.8980774953978682,
-    "MAE": 18.072447767455866,
-    "MSE": 494.6306775893587,
-    "RMSE": 22.24029400860876,
-    "MAPE": 0.07138263580277526,
+    "R2": 0.8980774953978914,
+    "MAE": 18.072447767453326,
+    "MSE": 494.630677589246,
+    "RMSE": 22.240294008606227,
+    "MAPE": 0.071382635802766,
     "params": {
-        "intercept": 0.0006207881720358752,
-        "StationTempOutdoorAir": 0.4054164041319414,
-        "TurbineTempFeedWaterQ2": 0.45274807191094435,
-        "StationCoalHumidity": -2.8529812834333117,
-        "StationCoalAsh": -1.933384339060457,
-        "StationConsumpNaturalFuel": 0.05462452544339503,
-        "Year": -0.00047535390551750037,
-        "Season": 3.899270795127938,
-        "DayOfWeek": -0.16358407283634666,
+        "intercept": 0.0006207881711884142,
+        "StationTempOutdoorAir": 0.4054164041319438,
+        "TurbineTempFeedSteamQ2": 0.45274807191094263,
+        "StationCoalHumidity": -2.8529812834333383,
+        "StationCoalAsh": -1.9333843390604641,
+        "StationConsumpNaturalFuel": 0.05462452544339688,
+        "Year": -0.00047535390551698006,
+        "Season": 3.899270795127956,
+        "DayOfWeek": -0.16358407283634796,
         "sigma2": 574.2503431814055
     },
-    "summary": "                               SARIMAX Results                                \n==============================================================================\nDep. Variable:        TurbinePowerSum   No. Observations:                 2557\nModel:                        SARIMAX   Log Likelihood              -11750.620\nDate:                Wed, 23 Apr 2025   AIC                          23521.240\nTime:                        17:23:46   BIC                          23579.706\nSample:                    01-01-2008   HQIC                         23542.442\n                         - 12-31-2014                                         \nCovariance Type:                  opg                                         \n=============================================================================================\n                                coef    std err          z      P>|z|      [0.025      0.975]\n---------------------------------------------------------------------------------------------\nintercept                     0.0006    902.290   6.88e-07      1.000   -1768.456    1768.457\nStationTempOutdoorAir         0.4054      0.053      7.682      0.000       0.302       0.509\nTurbineTempFeedWaterQ2        0.4527      0.042     10.788      0.000       0.370       0.535\nStationCoalHumidity          -2.8530      0.384     -7.437      0.000      -3.605      -2.101\nStationCoalAsh               -1.9334      0.205     -9.452      0.000      -2.334      -1.532\nStationConsumpNaturalFuel     0.0546      0.001     96.959      0.000       0.054       0.056\nYear                         -0.0005      0.450     -0.001      0.999      -0.883       0.882\nSeason                        3.8993      0.498      7.830      0.000       2.923       4.875\nDayOfWeek                    -0.1636      0.238     -0.686      0.493      -0.631       0.304\nsigma2                      574.2503     13.649     42.074      0.000     547.500     601.001\n===================================================================================\nLjung-Box (L1) (Q):                1112.57   Jarque-Bera (JB):               124.91\nProb(Q):                              0.00   Prob(JB):                         0.00\nHeteroskedasticity (H):               0.62   Skew:                             0.13\nProb(H) (two-sided):                  0.00   Kurtosis:                         4.05\n===================================================================================\n\nWarnings:\n[1] Covariance matrix calculated using the outer product of gradients (complex-step)."
+    "summary": "                               SARIMAX Results                                \n==============================================================================\nDep. Variable:        TurbinePowerSum   No. Observations:                 2557\nModel:                        SARIMAX   Log Likelihood              -11750.620\nDate:                Tue, 29 Apr 2025   AIC                          23521.240\nTime:                        12:21:12   BIC                          23579.706\nSample:                    01-01-2008   HQIC                         23542.442\n                         - 12-31-2014                                         \nCovariance Type:                  opg                                         \n=============================================================================================\n                                coef    std err          z      P>|z|      [0.025      0.975]\n---------------------------------------------------------------------------------------------\nintercept                     0.0006    902.289   6.88e-07      1.000   -1768.454    1768.455\nStationTempOutdoorAir         0.4054      0.053      7.682      0.000       0.302       0.509\nTurbineTempFeedSteamQ2        0.4527      0.042     10.788      0.000       0.370       0.535\nStationCoalHumidity          -2.8530      0.384     -7.437      0.000      -3.605      -2.101\nStationCoalAsh               -1.9334      0.205     -9.452      0.000      -2.334      -1.532\nStationConsumpNaturalFuel     0.0546      0.001     96.959      0.000       0.054       0.056\nYear                         -0.0005      0.450     -0.001      0.999      -0.883       0.882\nSeason                        3.8993      0.498      7.830      0.000       2.923       4.875\nDayOfWeek                    -0.1636      0.238     -0.686      0.493      -0.631       0.304\nsigma2                      574.2503     13.649     42.074      0.000     547.500     601.001\n===================================================================================\nLjung-Box (L1) (Q):                1112.57   Jarque-Bera (JB):               124.91\nProb(Q):                              0.00   Prob(JB):                         0.00\nHeteroskedasticity (H):               0.62   Skew:                             0.13\nProb(H) (two-sided):                  0.00   Kurtosis:                         4.05\n===================================================================================\n\nWarnings:\n[1] Covariance matrix calculated using the outer product of gradients (complex-step)."
 }
