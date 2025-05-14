@@ -19,7 +19,7 @@ with open(INFO_PATH, 'r', encoding='utf-8') as filestream:
     info = json.load(filestream)
 
 def calculate(data: pd.DataFrame) -> float:
-    data = data[['StationTempOutdoorAir', 'TurbineTempFeedWaterQ2',
+    data = data[['StationTempOutdoorAir', 'TurbineTempFeedSteamQ2',
                  'StationCoalHumidity', 'StationCoalAsh',
                  'StationConsumpNaturalFuel', 'Year', 'Season', 'Month', 'DayOfYear', 'Day', 'DayOfWeek']]
     pred = model.predict(data)

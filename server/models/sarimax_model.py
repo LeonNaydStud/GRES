@@ -18,7 +18,7 @@ with open(INFO_PATH, 'r', encoding='utf-8') as f:
 
 
 def calculate(data: pd.DataFrame) -> float:
-    data = data[['StationTempOutdoorAir', 'TurbineTempFeedWaterQ2',
+    data = data[['StationTempOutdoorAir', 'TurbineTempFeedSteamQ2',
              'StationCoalHumidity', 'StationCoalAsh',
              'StationConsumpNaturalFuel', 'Year', 'Season', 'DayOfWeek']]
     pred = model.forecast(data.shape[0], exog=data)

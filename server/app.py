@@ -91,7 +91,7 @@ if button:
         df = pd.DataFrame({
             'Date': pd.to_datetime([Date]),
             'StationTempOutdoorAir': [float(StationTempOutdoorAir)],
-            'TurbineTempFeedWaterQ2': [float(turb)],
+            'TurbineTempFeedSteamQ2': [float(turb)],
             'StationCoalHumidity': [float(StationCoalHumidity)],
             'StationCoalAsh': [float(StationCoalAsh)],
             'StationConsumpNaturalFuel': [float(StationConsumpNaturalFuel)]
@@ -103,7 +103,7 @@ if button:
         st.dataframe(df, column_config={
             'Date' : "Дата",
             'StationTempOutdoorAir': "Температура вне станции(°C)",
-            'TurbineTempFeedWaterQ2': "Температура пара в турбинах(°C)",
+            'TurbineTempFeedSteamQ2': "Температура пара в турбинах(°C)",
             'StationCoalHumidity': "Влажность угля(%)",
             'StationCoalAsh': "Зольность угля(%)",
             'StationConsumpNaturalFuel': "Расход натурального топлива(т)"})
