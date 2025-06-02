@@ -126,9 +126,7 @@ def create_catboost(train_date='2015-01-01', r2_threshold=0.85):
 def create_sarimax(train_date='2015-01-01', r2_threshold=0.85, order=(0, 0, 0)):
     try:
         target = ['TurbinePowerSum']
-        features = ['StationTempOutdoorAir', 'TurbineTempFeedSteamQ2', 'StationCoalHumidity',
-                    'StationCoalAsh', 'StationConsumpNaturalFuel', 'Year',
-                    'Season', 'DayOfWeek']
+        features = ['StationTempOutdoorAir', 'TurbineTempFeedSteamQ2', 'StationConsumpNaturalFuel']
 
         train = df.loc[df.index < train_date]
         test = df.loc[df.index >= train_date]
@@ -136,9 +134,8 @@ def create_sarimax(train_date='2015-01-01', r2_threshold=0.85, order=(0, 0, 0)):
         mod = sm.tsa.statespace.SARIMAX(
             endog=train[target],
             exog=train[features],
-            trend='c',
-            order=order,
-            freq='D'
+            trend='n',
+            order=(0, 0, 0)
         )
 
         res = mod.fit(disp=False)

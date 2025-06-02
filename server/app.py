@@ -49,7 +49,7 @@ with st.sidebar:
     with c4:
         StationCoalAsh = st.number_input('Зольность (%)',
                                          min_value=0.0, max_value=100.0, value=23.36)
-    button = st.button("Предсказать выходную мощность")
+    button = st.button("Рассчитать прогноз")
 
 def month_to_season(month):
     seasons = {
@@ -76,11 +76,11 @@ def metric_model(model):
     st.write(f"Оценка RMSE: {model.get_rmse():.3f}")
     st.write(f"Оценка MAPE: {model.get_mape():.3f}")
 
-st.title("Предсказание выходной мощности ГРЭС")
+st.title("Прогнозирование выходной мощности ГРЭС")
 
 placeholder = st.empty()
 if "button_pressed" not in st.session_state:
-    placeholder.info("Выберите параметры станции и нажмите кнопку \"Предсказать выходную мощность\" для предсказания выходной мощности")
+    placeholder.info("Выберите параметры станции и нажмите кнопку \"Рассчитать прогноз\" для предсказания выходной мощности")
 
 if button:
     try:
@@ -113,46 +113,46 @@ if button:
             power = np.round(cb.calculate(df_processed), 2)
             col1, col2 = st.columns(2)
             with col1:
-                st.header("Метрики оценки модели")
+                st.header("Метрики оценки модели", help="Метрики оценки после обучения на обучающей выборке")
                 metric_model(cb)
             with col2:
                 st.header(f"Результат модели {model_type}")
-                st.metric(label="Выходная мощность в час", value=f"{power:.2f} МВт",
+                st.metric(label="Средняя выходная мощность в час", value=f"{power:.2f} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
-                st.metric(label="Выходная мощность в сутки", value=f"{24 * power:.2f} МВт",
+                st.metric(label="Выходная мощность в текущие сутки", value=f"{24 * power:.2f} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
         elif model_type == "SARIMAX":
             df_processed = prepare_input_data(df.copy())
             power = np.round(sm.calculate(df_processed), 2)
             col1, col2 = st.columns(2)
             with col1:
-                st.header("Метрики оценки модели")
+                st.header("Метрики оценки модели", help="Метрики оценки после обучения на обучающей выборке")
                 metric_model(sm)
             with col2:
                 st.header(f"Результат модели {model_type}")
-                st.metric(label="Выходная мощность в час", value=f"{power:.2f} МВт",
+                st.metric(label="Средняя выходная мощность в час", value=f"{power:.2f} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
-                st.metric(label="Выходная мощность в сутки", value=f"{24 * power:.2f} МВт",
+                st.metric(label="Выходная мощность в текущие сутки", value=f"{24 * power:.2f} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
         else:
             df_processed = prepare_input_data(df.copy())
-            power_cat = np.round(cb.calculate(df_processed), 2)
+            power_cb = np.round(cb.calculate(df_processed), 2)
             power_sm = np.round(sm.calculate(df_processed), 2)
             st.header("Результаты моделей")
             col1, col2 = st.columns(2)
             with col1:
                 st.write("<h4>CatBoost</h4>", unsafe_allow_html=True)
-                st.metric(label="Выходная мощность в час", value=f"{power_cat:.2f} МВт",
+                st.metric(label="Средняя выходная мощность в час", value=f"{power_cb:.2f} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
-                st.metric(label="Выходная мощность в сутки", value=f"{24 * power_cat:.2f} МВт",
+                st.metric(label="Выходная мощность в текущие сутки", value=f"{24 * power_cb:.2f} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
             with col2:
                 st.write("<h4>SARIMAX</h4>", unsafe_allow_html=True)
-                st.metric(label="Выходная мощность в час", value=f"{power_sm:.2f} МВт",
+                st.metric(label="Средняя выходная мощность в час", value=f"{power_sm:.2f} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
-                st.metric(label="Выходная мощность в сутки", value=f"{24 * power_sm:.2f} МВт",
+                st.metric(label="Выходная мощность в текущие сутки", value=f"{24 * power_sm:.2f} МВт",
                           help="Прогнозируемая выходная мощность на основе входных параметров")
-            st.header("Метрики оценки модели", help="Прогнозируемая выходная мощность на основе входных параметров")
+            st.header("Метрики оценки модели", help="Метрики оценки после обучения на обучающей выборке")
             col3, col4 = st.columns(2)
             with col3: metric_model(cb)
             with col4: metric_model(sm)
